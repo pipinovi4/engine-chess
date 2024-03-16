@@ -1,0 +1,22 @@
+{
+  "name": "chess-engine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "nodemon dist/index.js",
+    "compile:watch": "tsc --watch -p tsconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
+  },
+  "devDependencies": {
+    "electron": "^29.1.4",
+    "nodemon": "^3.1.0"
+  }
+}
