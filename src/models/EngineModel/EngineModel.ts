@@ -1,4 +1,4 @@
-import BitBoardModel from '../BitBoards/BitBoardModel';
+import BitBoardModel from "../BitBoards/BitBoardModel";
 import BitBoardsEnum from "../../enums/BitBoardsEnum";
 import ColorsEnum from "../../enums/ColorsEnum";
 import EngineModeEnum from "../../enums/EngineModeEnum";
@@ -13,10 +13,10 @@ class EngineModel {
 
     private initBitBoards() {
         Object.values(BitBoardsEnum).forEach((type ) => {
-            if (type === BitBoardsEnum.ALL) this.bitBoards.set(type.toString(), new BitBoardModel(type));
+            if (type === BitBoardsEnum.ALL) this.bitBoards.set(type.toString(), new BitBoardModel());
 
             Object.values(ColorsEnum).forEach((color) => {
-                const bitBoardValue = new BitBoardModel(type as BitBoardsEnum, color as ColorsEnum);
+                const bitBoardValue = new BitBoardModel();
                 const bitBoardKey = bitBoardValue.generateBitBoardKey(type as BitBoardsEnum, color as ColorsEnum);
 
                 this.bitBoards.set(bitBoardKey, bitBoardValue);

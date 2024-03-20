@@ -3,22 +3,30 @@ import ColorsEnum from "../../enums/ColorsEnum";
 import BitBoardsEnum from "../../enums/BitBoardsEnum";
 
 class BitBoardModel {
-    protected board: bigint = 0n;
+    protected bitBoard: bigint;
 
     public getBoard = (): bigint => {
-        return this.board;
+        return this.bitBoard;
     };
 
     public setPosition = (position: number, value: boolean): void => {
         if (value) {
-            this.board |= 1n << BigInt(position);
+            this.bitBoard |= 1n << BigInt(position);
         } else {
-            this.board &= ~(1n << BigInt(position));
+            this.bitBoard &= ~(1n << BigInt(position));
         }
     };
 
+    protected setBitBoard(bitBoard: bigint) {
+        this.bitBoard = bitBoard;
+    }
+
+    public getBitBoard() {
+        return this.bitBoard;
+    }
+
     public getPosition = (position: number): boolean => {
-        return (this.board & (1n << BigInt(position))) !== 0n;
+        return (this.bitBoard & (1n << BigInt(position))) !== 0n;
     };
 
     public generateBitBoardKey = (type: BitBoardsEnum, color: ColorsEnum): string => {

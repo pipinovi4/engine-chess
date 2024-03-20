@@ -1,4 +1,4 @@
-import FigureModel from '../FigureModel';
+import FigureModel from "./FigureModel";
 
 class BitBoardKingModel extends FigureModel {
     constructor() {
@@ -6,6 +6,15 @@ class BitBoardKingModel extends FigureModel {
     };
 
     protected makeAllPossibleMoves() {
+    };
+
+    protected checkUnderAttack() {
+    };
+
+    protected checkUnderCheck() {
+    };
+
+    protected checkUnderMate() {
     };
 }
 

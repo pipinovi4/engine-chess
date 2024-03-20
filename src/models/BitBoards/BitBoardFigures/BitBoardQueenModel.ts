@@ -1,4 +1,4 @@
-import FigureModel from "../FigureModel";
+import FigureModel from "./FigureModel";
 
 class BitBoardQueenModel extends FigureModel {
     constructor() {
