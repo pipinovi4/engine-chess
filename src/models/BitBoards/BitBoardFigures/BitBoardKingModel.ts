@@ -1,6 +1,6 @@
-import BitBoardModel from "../BitBoardModel";
+import FigureModel from "./FigureModel";
 
-class BitBoardKingModel extends BitBoardModel {
+class BitBoardKingModel extends FigureModel {
     constructor() {
         super();
     };

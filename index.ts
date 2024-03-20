@@ -6,6 +6,16 @@ const start = () => {
 
     const startTime = performance.now();
     rookBitBoard.makeAllPossibleMoves();
+    rookBitBoard.makeAllPossibleMoves();
+    rookBitBoard.makeAllPossibleMoves();
+    rookBitBoard.makeAllPossibleMoves();
+    rookBitBoard.makeAllPossibleMoves();
+    rookBitBoard.makeAllPossibleMoves();
+    rookBitBoard.makeAllPossibleMoves();
+    rookBitBoard.makeAllPossibleMoves();
+    rookBitBoard.makeAllPossibleMoves();
+    rookBitBoard.makeAllPossibleMoves();
+
     const endTime = performance.now();
 
     console.log(`Функция makeAllPossibleMoves выполнялась ${(endTime - startTime).toFixed(2)} миллисекунд.`);

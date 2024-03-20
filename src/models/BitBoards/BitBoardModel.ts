@@ -1,8 +1,9 @@
 import BitBoardTypes from '../../enums/BitBoardsEnum';
 import ColorsEnum from "../../enums/ColorsEnum";
 import BitBoardsEnum from "../../enums/BitBoardsEnum";
+import EngineModel from "../EngineModel/EngineModel";
 
-class BitBoardModel {
+class BitBoardModel extends EngineModel {
     protected bitBoard: bigint;
 
     public getBoard = (): bigint => {

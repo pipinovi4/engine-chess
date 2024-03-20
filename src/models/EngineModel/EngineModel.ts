@@ -6,16 +6,19 @@ import EngineModeEnum from "../../enums/EngineModeEnum";
 const ENGINE_TIMEOUT = 2 * 60 * 1000;
 
 class EngineModel {
-    public deep: number;
-    public mode: EngineModeEnum;
+    private deep: number;
+    private mode: EngineModeEnum;
     readonly timeOut = ENGINE_TIMEOUT;
-    private bitBoards: Map<string, BitBoardModel> = new Map();
+    protected bitBoards: Map<string, BitBoardModel> = new Map();
 
     private initBitBoards() {
         Object.values(BitBoardsEnum).forEach((type ) => {
-            if (type === BitBoardsEnum.ALL) this.bitBoards.set(type.toString(), new BitBoardModel());
+            if (type === BitBoardsEnum.ALL) { // @ts-ignore
+                this.bitBoards.set(type.toString(), new BitBoardModel());
+            }
 
             Object.values(ColorsEnum).forEach((color) => {
+                // @ts-ignore
                 const bitBoardValue = new BitBoardModel();
                 const bitBoardKey = bitBoardValue.generateBitBoardKey(type as BitBoardsEnum, color as ColorsEnum);
 
@@ -27,7 +30,6 @@ class EngineModel {
     constructor(deep: number = 20, mode: EngineModeEnum) {
         this.deep = deep;
         this.mode = mode;
-        this.initBitBoards();
     }
 }
 
