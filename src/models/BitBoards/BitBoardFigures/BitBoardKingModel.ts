@@ -1,20 +1,11 @@
-import FigureModel from "./FigureModel";
+import BitBoardModel from "../BitBoardModel";
 
-class BitBoardKingModel extends FigureModel {
+class BitBoardKingModel extends BitBoardModel {
     constructor() {
         super();
     };
 
     protected makeAllPossibleMoves() {
-    };
-
-    protected checkUnderAttack() {
-    };
-
-    protected checkUnderCheck() {
-    };
-
-    protected checkUnderMate() {
     };
 }
 

@@ -6,18 +6,22 @@ class FigureModel extends BitBoardModel{
     }
 
     protected makeAllPossibleVerticalMoves(): bigint[] {
+
         return [1n];
     };
 
     protected makeAllPossibleHorizontalMoves(): bigint[] {
+
         return [1n];
     };
 
     protected makeAllPossibleDiagonalMoves(): bigint[] {
+
         return [1n];
     };
 
     protected isCellEmpty(): boolean {
+
         return false;
     };
 }
