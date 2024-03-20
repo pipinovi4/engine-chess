@@ -13,15 +13,23 @@ class BitBoardRookModel extends FigureModel {
     };
 
     public makeAllPossibleMoves() {
-        const maxSteps = 7n;
         const possibleMoves: bigint[] = [];
         let bitBoard = this.bitBoard;
 
-        const bitMask = bitBoard & -bitBoard
-        const position = BigInt(bitMask.toString(2).length - 1);
-        const positions = this.makeAllPossibleDiagonalMoves(position);
-        const positions2 = this.makeAllPossibleHorizontalMoves(position);
-        const positions3 = this.makeAllPossibleVerticalMoves(position);
+        while (bitBoard !== 0n) {
+            const bitMask = bitBoard & -bitBoard
+            bitBoard &= ~bitMask;
+
+            const position = BigInt(bitMask.toString(2).length - 1);
+            const horizontalMoves = this.makeAllPossibleHorizontalMoves(position);
+            const verticalMoves = this.makeAllPossibleVerticalMoves(position);
+
+            possibleMoves.push(...horizontalMoves, ...verticalMoves);
+        }
+
+        console.log(possibleMoves);
+
+        return possibleMoves;
     };
 }
 

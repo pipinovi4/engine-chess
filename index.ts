@@ -6,15 +6,6 @@ const start = () => {
 
     const startTime = performance.now();
     rookBitBoard.makeAllPossibleMoves();
-    rookBitBoard.makeAllPossibleMoves();
-    rookBitBoard.makeAllPossibleMoves();
-    rookBitBoard.makeAllPossibleMoves();
-    rookBitBoard.makeAllPossibleMoves();
-    rookBitBoard.makeAllPossibleMoves();
-    rookBitBoard.makeAllPossibleMoves();
-    rookBitBoard.makeAllPossibleMoves();
-    rookBitBoard.makeAllPossibleMoves();
-    rookBitBoard.makeAllPossibleMoves();
 
     const endTime = performance.now();
 

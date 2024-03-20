@@ -9,6 +9,24 @@ class BitBoardPawnModel extends FigureModel {
         this.bitBoard = color === ColorsEnum.WHITE ? WHITE_PAWN_INITIAL_POSITION : BLACK_PAWN_INITIAL_POSITION;
     };
 
+    protected makeMove(bitMask: bigint, step: bigint): bigint {
+        let newPossibleMove: bigint = this.bitBoard;
+        const move = bitMask << step;
+        newPossibleMove &= ~bitMask;
+        newPossibleMove |= move;
+        return newPossibleMove;
+    }
+
+    protected makeDoubleMove(bitMask: bigint, step: bigint, direction: number): bigint {
+        let newPossibleMove = this.makeMove(bitMask, step);
+        if ((direction > 0 && (bitMask & BLACK_PAWN_INITIAL_POSITION) !== 0n) || (direction < 0 && (bitMask & WHITE_PAWN_INITIAL_POSITION) !== 0n)) {
+            newPossibleMove &= ~bitMask;
+            const moveTwoSteps = bitMask << step * 2n;
+            newPossibleMove |= moveTwoSteps;
+        }
+        return newPossibleMove;
+    }
+
     protected makeAllPossibleMoves(direction: number) {
         const possibleMoves: bigint[] = [];
         const step = direction > 0 ? 8n : -8n;
@@ -18,20 +36,14 @@ class BitBoardPawnModel extends FigureModel {
             const bitMask = bitBoard & -bitBoard;
             bitBoard &= ~bitMask;
 
-            let newPossibleMove: bigint = this.bitBoard;
-            const moveOneStep = bitMask << step;
-            newPossibleMove &= ~bitMask;
-
-            newPossibleMove |= moveOneStep;
+            const newPossibleMove = this.makeMove(bitMask, step);
             possibleMoves.push(newPossibleMove);
 
-            if ((direction > 0 && (bitMask & BLACK_PAWN_INITIAL_POSITION) !== 0n) || (direction < 0 && (bitMask & WHITE_PAWN_INITIAL_POSITION) !== 0n)) {
-                newPossibleMove &= ~moveOneStep;
-                const moveTwoSteps = bitMask << step * 2n;
-                newPossibleMove |= moveTwoSteps;
-                possibleMoves.push(newPossibleMove);
-            }
+            const newDoubleMove = this.makeDoubleMove(bitMask, step, direction);
+            possibleMoves.push(newDoubleMove);
         }
+
+        return possibleMoves;
     };
 }
 
