@@ -1,8 +1,15 @@
 import FigureModel from "./FigureModel";
+import ColorsEnum from "../../../enums/ColorsEnum";
+import {
+    BLACK_BISHOP_INITIAL_POSITION,
+    WHITE_BISHOP_INITIAL_POSITION
+} from "../../../constants/InitialBinaryValueBitBoards";
+import {extractLowestBitMask} from "../../../utils/BitManipulations";
 
 class BitBoardBishopModel extends FigureModel {
-    constructor() {
+    constructor(color: ColorsEnum) {
         super();
+        this.bitBoard = color === ColorsEnum.WHITE ? WHITE_BISHOP_INITIAL_POSITION : BLACK_BISHOP_INITIAL_POSITION;
     };
 
     protected makeAllPossibleMoves() {
@@ -10,11 +17,10 @@ class BitBoardBishopModel extends FigureModel {
         let bitBoard = this.bitBoard;
 
         while (bitBoard !== 0n) {
-            const bitMask = bitBoard & -bitBoard
+            const bitMask = extractLowestBitMask(bitBoard);
             bitBoard &= ~bitMask;
 
-            const position = BigInt(bitMask.toString(2).length - 1);
-            const diagonalMoves = this.makeAllPossibleDiagonalMoves(position);
+            const diagonalMoves = this.makeAllPossibleDiagonalMoves(bitMask);
 
             possibleMoves.push(...diagonalMoves);
         }

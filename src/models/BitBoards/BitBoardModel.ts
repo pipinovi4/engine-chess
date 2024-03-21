@@ -1,7 +1,11 @@
-import BitBoardTypes from '../../enums/BitBoardsEnum';
+import BitBoardsEnum from '../../enums/BitBoardsEnum';
 import ColorsEnum from "../../enums/ColorsEnum";
-import BitBoardsEnum from "../../enums/BitBoardsEnum";
-import EngineModel from "../EngineModel/EngineModel";
+import EngineModel from "../Engine/EngineModel";
+import {
+    BLACK_INITIAL_POSITION,
+    INITIAL_POSITION,
+    WHITE_INITIAL_POSITION
+} from "../../constants/InitialBinaryValueBitBoards";
 
 class BitBoardModel extends EngineModel {
     protected bitBoard: bigint;
@@ -32,6 +36,18 @@ class BitBoardModel extends EngineModel {
 
     public generateBitBoardKey = (type: BitBoardsEnum, color: ColorsEnum): string => {
         return `${type}_${color}`;
+    };
+
+    protected bitOccupiedEnemy(bitMask: bigint, color: ColorsEnum): boolean {
+        return (color === ColorsEnum.WHITE ? BLACK_INITIAL_POSITION & bitMask : WHITE_INITIAL_POSITION & bitMask) !== 0n;
+    };
+
+    protected bitOccupiedFriendly(bitMask: bigint, color: ColorsEnum): boolean {
+        return (color === ColorsEnum.WHITE ? WHITE_INITIAL_POSITION & bitMask : BLACK_INITIAL_POSITION & bitMask) !== 0n;
+    };
+
+    protected bitOccupied(bitMask: bigint): boolean {
+        return (INITIAL_POSITION & bitMask) === 0n;
     }
 }
 

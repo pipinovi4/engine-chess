@@ -10,13 +10,10 @@ class EngineModel {
     private mode: EngineModeEnum;
     readonly timeOut = ENGINE_TIMEOUT;
     protected bitBoards: Map<string, BitBoardModel> = new Map();
+    protected bitBoardPool: BitBoardModel[] = [];
 
     private initBitBoards() {
         Object.values(BitBoardsEnum).forEach((type ) => {
-            if (type === BitBoardsEnum.ALL) { // @ts-ignore
-                this.bitBoards.set(type.toString(), new BitBoardModel());
-            }
-
             Object.values(ColorsEnum).forEach((color) => {
                 // @ts-ignore
                 const bitBoardValue = new BitBoardModel();

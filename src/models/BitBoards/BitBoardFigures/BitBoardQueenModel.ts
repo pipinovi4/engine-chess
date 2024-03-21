@@ -1,8 +1,15 @@
 import FigureModel from "./FigureModel";
+import ColorsEnum from "../../../enums/ColorsEnum";
+import {
+    BLACK_QUEEN_INITIAL_POSITION,
+    WHITE_QUEEN_INITIAL_POSITION,
+} from "../../../constants/InitialBinaryValueBitBoards";
+import {extractLowestBitMask} from "../../../utils/BitManipulations";
 
 class BitBoardQueenModel extends FigureModel {
-    constructor() {
+    constructor(color: ColorsEnum) {
         super();
+        this.bitBoard = color === ColorsEnum.WHITE ? WHITE_QUEEN_INITIAL_POSITION : BLACK_QUEEN_INITIAL_POSITION;
     };
 
     makeAllPossibleMoves() {
@@ -10,13 +17,12 @@ class BitBoardQueenModel extends FigureModel {
         let bitBoard = this.bitBoard;
 
         while (bitBoard !== 0n) {
-            const bitMask = bitBoard & -bitBoard
+            const bitMask = extractLowestBitMask(bitBoard);
             bitBoard &= ~bitMask;
 
-            const position = BigInt(bitMask.toString(2).length - 1);
-            const horizontalMoves = this.makeAllPossibleHorizontalMoves(position);
-            const verticalMoves = this.makeAllPossibleVerticalMoves(position);
-            const diagonalMoves = this.makeAllPossibleDiagonalMoves(position);
+            const horizontalMoves = this.makeAllPossibleHorizontalMoves(bitMask);
+            const verticalMoves = this.makeAllPossibleVerticalMoves(bitMask);
+            const diagonalMoves = this.makeAllPossibleDiagonalMoves(bitMask);
 
             possibleMoves.push(...horizontalMoves, ...verticalMoves, ...diagonalMoves);
         }

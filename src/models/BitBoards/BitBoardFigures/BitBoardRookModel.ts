@@ -4,6 +4,7 @@ import {
     WHITE_ROOK_INITIAL_POSITION
 } from "../../../constants/InitialBinaryValueBitBoards";
 import FigureModel from "./FigureModel";
+import {extractLowestBitMask} from "../../../utils/BitManipulations";
 
 class BitBoardRookModel extends FigureModel {
 
@@ -17,17 +18,14 @@ class BitBoardRookModel extends FigureModel {
         let bitBoard = this.bitBoard;
 
         while (bitBoard !== 0n) {
-            const bitMask = bitBoard & -bitBoard
+            const bitMask = extractLowestBitMask(bitBoard);
             bitBoard &= ~bitMask;
 
-            const position = BigInt(bitMask.toString(2).length - 1);
-            const horizontalMoves = this.makeAllPossibleHorizontalMoves(position);
-            const verticalMoves = this.makeAllPossibleVerticalMoves(position);
+            const horizontalMoves = this.makeAllPossibleHorizontalMoves(bitMask);
+            const verticalMoves = this.makeAllPossibleVerticalMoves(bitMask);
 
             possibleMoves.push(...horizontalMoves, ...verticalMoves);
         }
-
-        console.log(possibleMoves);
 
         return possibleMoves;
     };

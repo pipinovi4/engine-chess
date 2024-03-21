@@ -1,6 +1,15 @@
 import BitBoardModel from "../BitBoardModel";
 import BitBoardsEnum from "../../../enums/BitBoardsEnum";
 import {INITIAL_POSITION} from "../../../constants/InitialBinaryValueBitBoards";
+import {
+    STEP_AHEAD,
+    STEP_BACKWARD, STEP_DIAGONAL_AHEAD_LEFT,
+    STEP_DIAGONAL_AHEAD_RIGHT, STEP_DIAGONAL_LEFT_BACKWARD, STEP_DIAGONAL_RIGHT_BACKWARD,
+    STEP_LEFT,
+    STEP_RIGHT
+} from "../../../constants/FiguresPossibleSteps";
+import {BOTTOM_EDGE, LEFT_EDGE, RIGHT_EDGE, TOP_EDGE} from "../../../constants/BitBoardEdges";
+import {extractLowestBitMask} from "../../../utils/BitManipulations";
 
 class FigureModel extends BitBoardModel{
 
@@ -9,67 +18,66 @@ class FigureModel extends BitBoardModel{
         super();
     }
 
-    protected makeAllPossibleVerticalMoves(position: bigint): bigint[] {
+    protected makeAllPossibleVerticalMoves(bitMask: bigint): bigint[] {
         const result: bigint[] = [];
-        const steps = [8n, -8n]
+        const steps = [STEP_BACKWARD, STEP_AHEAD]
         let newBitBoard = this.bitBoard;
 
-        while (newBitBoard !== 0n) {
-            const bitMask = newBitBoard & -newBitBoard;
-            newBitBoard &= ~bitMask;
+        newBitBoard &= ~bitMask;
 
-            const newPossibleMove = bitMask >> 8n;
+        const newPossibleMove = bitMask >> STEP_AHEAD;
 
+        if (this.isWithinBoardBoundaries(newPossibleMove)) {
             newBitBoard |= newPossibleMove;
-
             result.push(newBitBoard);
         }
 
         return result;
     };
 
-    protected makeAllPossibleHorizontalMoves(position: bigint): bigint[] {
+    protected makeAllPossibleHorizontalMoves(bitMask: bigint): bigint[] {
         const result: bigint[] = [];
-        const steps = [1n, -1n]
+        const steps = [STEP_LEFT, STEP_RIGHT]
         let newBitBoard = this.bitBoard;
 
-        while (newBitBoard !== 0n) {
-            const bitMask = newBitBoard & -newBitBoard;
-            newBitBoard &= ~bitMask;
+        newBitBoard &= ~bitMask;
 
-            const newPossibleMove = bitMask >> 1n;
-
+        const newPossibleMove = bitMask >> 1n;
+        if (this.isWithinBoardBoundaries(newPossibleMove)) {
             newBitBoard |= newPossibleMove;
-
             result.push(newBitBoard);
         }
 
         return result;
     };
 
-    protected makeAllPossibleDiagonalMoves(position: bigint): bigint[] {
+    protected makeAllPossibleDiagonalMoves(bitMask: bigint): bigint[] {
         const result: bigint[] = [];
         let newBitBoard = this.bitBoard;
-        const steps = [7n, 9n, -7n, -9n];
+        const steps = [
+            STEP_DIAGONAL_AHEAD_RIGHT, STEP_DIAGONAL_LEFT_BACKWARD,
+            STEP_DIAGONAL_AHEAD_LEFT, STEP_DIAGONAL_RIGHT_BACKWARD
+        ];
 
-        steps.forEach(direction => {
+        steps.forEach(step => {
             let bitBoard = newBitBoard;
-            while (bitBoard !== 0n) {
-                const bitMask = bitBoard & -bitBoard;
+            const bitMask = extractLowestBitMask(newBitBoard);
 
-                    bitBoard &= ~bitMask;
+            bitBoard &= ~bitMask;
 
-                    const newPossibleMove = direction > 0 ? bitMask >> direction : bitMask >> -direction;
-                    bitBoard |= newPossibleMove;
-                    result.push(bitBoard);
+            const newPossibleMove = step > 0 ? bitMask >> step : bitMask >> -step;
+            if (this.isWithinBoardBoundaries(newPossibleMove)) {
+                bitBoard |= newPossibleMove;
+                result.push(bitBoard);
             }
         });
 
         return result;
     };
 
-    protected IsEmptyBit(bitMask: bigint): boolean {
-        return (INITIAL_POSITION & bitMask) === 0n;
+    protected isWithinBoardBoundaries(bitMask: bigint): boolean {
+        return ((bitMask << 1n & LEFT_EDGE) !== 0n || (bitMask >> 1n & RIGHT_EDGE) !== 0n ||
+            (bitMask << 8n & TOP_EDGE) !== 0n || (bitMask >> 8n & BOTTOM_EDGE) !== 0n);
     };
 }
 
