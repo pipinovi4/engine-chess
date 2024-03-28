@@ -7,6 +7,8 @@ import {
 import {extractLowestBitMask} from "../../../utils/BitManipulations";
 
 class BitBoardQueenModel extends FigureModel {
+    private color: ColorsEnum;
+
     constructor(color: ColorsEnum) {
         super();
         this.bitBoard = color === ColorsEnum.WHITE ? WHITE_QUEEN_INITIAL_POSITION : BLACK_QUEEN_INITIAL_POSITION;
@@ -20,9 +22,9 @@ class BitBoardQueenModel extends FigureModel {
             const bitMask = extractLowestBitMask(bitBoard);
             bitBoard &= ~bitMask;
 
-            const horizontalMoves = this.makeAllPossibleHorizontalMoves(bitMask);
-            const verticalMoves = this.makeAllPossibleVerticalMoves(bitMask);
-            const diagonalMoves = this.makeAllPossibleDiagonalMoves(bitMask);
+            const horizontalMoves = this.makeAllPossibleHorizontalMoves(bitBoard, bitMask);
+            const verticalMoves = this.makeAllPossibleVerticalMoves(bitBoard, bitMask);
+            const diagonalMoves = this.makeAllPossibleDiagonalMoves(bitBoard, bitMask);
 
             possibleMoves.push(...horizontalMoves, ...verticalMoves, ...diagonalMoves);
         }

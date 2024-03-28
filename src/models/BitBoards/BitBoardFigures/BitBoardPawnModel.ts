@@ -46,10 +46,14 @@ class BitBoardPawnModel extends FigureModel {
             bitBoard &= ~bitMask;
 
             const newPossibleMove = this.makeMove(bitMask);
-            possibleMoves.push(newPossibleMove);
 
-            if (((bitMask & BLACK_PAWN_INITIAL_POSITION) !== 0n) || ((bitMask & WHITE_PAWN_INITIAL_POSITION) !== 0n)) {
-                const newDoubleMove = this.makeDoubleMove(bitMask);
+            if (((newPossibleMove & ~bitBoard) !== 0n) || !this.bitOccupiedFriendly(newPossibleMove, this.color)) {
+                possibleMoves.push(newPossibleMove);
+            }
+
+            const newDoubleMove = this.makeDoubleMove(bitMask);
+
+            if (((newDoubleMove & ~bitBoard) !== 0n) || !this.bitOccupiedFriendly(newDoubleMove, this.color)) {
                 possibleMoves.push(newDoubleMove);
             }
 
@@ -65,6 +69,8 @@ class BitBoardPawnModel extends FigureModel {
                 let newRightCaptureMove: bigint = this.makeMove(rightCaptureMask);
                 possibleMoves.push(newRightCaptureMove);
             }
+
+
         }
 
         return possibleMoves;

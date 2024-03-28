@@ -7,12 +7,14 @@ import {
 import {extractLowestBitMask} from "../../../utils/BitManipulations";
 
 class BitBoardBishopModel extends FigureModel {
+    readonly color: ColorsEnum
     constructor(color: ColorsEnum) {
         super();
+        this.color = color;
         this.bitBoard = color === ColorsEnum.WHITE ? WHITE_BISHOP_INITIAL_POSITION : BLACK_BISHOP_INITIAL_POSITION;
     };
 
-    protected makeAllPossibleMoves() {
+    public makeAllPossibleMoves() {
         const possibleMoves: bigint[] = [];
         let bitBoard = this.bitBoard;
 
@@ -20,7 +22,7 @@ class BitBoardBishopModel extends FigureModel {
             const bitMask = extractLowestBitMask(bitBoard);
             bitBoard &= ~bitMask;
 
-            const diagonalMoves = this.makeAllPossibleDiagonalMoves(bitMask);
+            const diagonalMoves = this.makeAllPossibleDiagonalMoves(bitBoard, bitMask);
 
             possibleMoves.push(...diagonalMoves);
         }
